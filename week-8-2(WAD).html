@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number to Words (0-999)</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 16px;
+            width: 150px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: darkblue;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Enter a Number (0 - 999)</h2>
+
+    <input type="text" id="numberInput" maxlength="3" placeholder="Enter number">
+    <button onclick="convertToWords()">Convert</button>
+
+    <div id="result"></div>
+
+    <script>
+        function convertToWords() {
+
+            var num = document.getElementById("numberInput").value;
+            var result = document.getElementById("result");
+
+            
+            if (!/^\d+$/.test(num)) {
+                result.innerHTML = "Invalid input! Enter digits only.";
+                result.className = "error";
+                return;
+            }
+
+            num = parseInt(num);
+
+            
+            if (num < 0 || num > 999) {
+                result.innerHTML = "Number must be between 0 and 999.";
+                result.className = "error";
+                return;
+            }
+
+            var ones = ["", "One", "Two", "Three", "Four", "Five", "Six",
+                        "Seven", "Eight", "Nine"];
+            var teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",
+                         "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+            var tens = ["", "", "Twenty", "Thirty", "Forty",
+                        "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+            function numberToWords(n) {
+
+                if (n === 0) return "Zero";
+
+                var word = "";
+
+                if (n >= 100) {
+                    word += ones[Math.floor(n / 100)] + " Hundred ";
+                    n %= 100;
+                }
+
+                if (n >= 10 && n <= 19) {
+                    word += teens[n - 10];
+                } 
+                else {
+                    word += tens[Math.floor(n / 10)] + " ";
+                    word += ones[n % 10];
+                }
+
+                return word.trim();
+            }
+
+            result.innerHTML = numberToWords(num);
+            result.className = "";
+        }
+    </script>
+
+</body>
+</html>
